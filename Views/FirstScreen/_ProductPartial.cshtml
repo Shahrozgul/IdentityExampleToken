@@ -1,0 +1,64 @@
+﻿@model dynamic
+@{
+}
+
+@if (Model.product != null)
+{
+    var listProduct = Model.product as List<Domain.Models.product>;
+    if (listProduct.Count != 0)
+    {
+        @foreach (Domain.Models.product item in listProduct)
+        {
+            <div class="col-md-4 markerDiv">
+                <figure class="card card-product divProduct" id="@item.Id">
+                    <figcaption class="info-wrap" style="border:none;">
+                        <div class="action-wrap" style="text-align: center;">
+                            <div class="price-wrap h5 b">
+                                <span id="spanItemName_@item.Id" class="title right">@Html.Raw(@item.productName)</span>
+                                <input id="hdnPrice_@item.Id" type="hidden" value="@item.productCurrentUnitPrice" />
+                                <input id="hdnProductId_@item.Id" type="hidden" value="@item.Id" />
+                            </div>
+                        </div>
+                    </figcaption>
+                </figure>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-12">
+            <figure class="card card-product divProductNoRecord">
+                <figcaption class="info-wrap" style="border:none;">
+                    <div class="action-wrap" style="text-align: center;">
+                        <div class="price-wrap h5 b">
+                            NO RECORD FOUND
+                        </div>
+                    </div>
+                </figcaption>
+            </figure>
+        </div>
+    }
+}
+else
+{
+    <div class="col-md-12">
+        <figure class="card card-product divProductNoRecord">
+            <figcaption class="info-wrap" style="border:none;">
+                <div class="action-wrap" style="text-align: center;">
+                    <div class="price-wrap h5 b">
+                        NO RECORD FOUND
+                    </div>
+                </div>
+            </figcaption>
+        </figure>
+    </div>
+}
+<script type="text/javascript">
+    $(".divProduct").click(function (e) {
+        var divId = $(this).attr('id');
+        var itemName = document.getElementById('spanItemName_' + divId).innerText;
+        var price = document.getElementById('hdnPrice_' + divId).value;
+        var productId = document.getElementById('hdnProductId_' + divId).value;
+        addRow(productId, itemName, price);
+    });
+</script>
